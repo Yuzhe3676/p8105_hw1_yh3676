@@ -30,7 +30,7 @@ ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
 ggsave("scatter_plot.png")
 ```
 
-The raw data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.m. on January 15, 2013, with time intervals of one recording every one hour. There are three areas of interest in the above image: 
+The data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.m. on January 15, 2013, with time intervals of one recording every one hour. There are three areas of interest in the above image: 
 
 *   From the relationship between temperature and time, the daily temperatures fluctuated significantly and the overall temperature showed an increasing trend.
 *   The relationship between humidity and time shows that the humidity was much higher from about January 12, 2013 to January 14, 2013 compared to the other dates. 
