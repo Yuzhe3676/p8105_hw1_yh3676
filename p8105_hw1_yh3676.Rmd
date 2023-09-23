@@ -34,3 +34,23 @@ The raw data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.
 *   The relationship between humidity and time shows that the humidity was much higher from about January 12, 2013 to January 14, 2013 compared to the other dates. 
 *   It is difficult to summarize the relationship between temperature and humidity based on visual observation of this graph, as it seems that the humidity was lower when the daily temperatures were higher in a single day. However, there are outliers from January 12, 2013 to January 14, 2013, which suggests that humidity may be more significantly affected by other factors.
 
+# Problem 2
+```{r, message = FALSE}
+library(tidyverse)
+
+# Create the data frame
+df = data.frame(
+  random_numeric = rnorm(10),  # Random sample from a standard Normal distribution
+  logical_vector = rnorm(10) > 0,  # Logical vector indicating if elements are > 0
+  character_vector = sample(letters, 10, replace = TRUE),  # Character vector of length 10
+  factor_vector = as.factor(sample(1:3, 10, replace = TRUE))  # Factor vector with 3 levels
+)
+
+# Attempt to calculate the mean of each variable
+mean(df$random_numeric)  # Works
+mean(df$logical_vector)  # Works
+mean(df$character_vector)  # Doesn't work
+mean(df$factor_vector)  # Doesn't work
+```
+The calculation of mean works for numerical vectors and logical vectors, and doesn't work for character vectors and factor vectors. For the logical vector here, this logical vector consists of "TRUE" and "FALSE". R assigns "TURE" to 1 and "FALSE" to 0 by default, and uses this to calculate the mean of the logical vector.
+
