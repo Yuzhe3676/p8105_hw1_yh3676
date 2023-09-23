@@ -6,7 +6,7 @@ output: github_document
 ---
 
 # Problem 1
-
+## About the `early_january_weather` dataset
 ```{r}
 library("moderndive")
 data("early_january_weather")
@@ -18,15 +18,16 @@ data("early_january_weather")
 
 *   The mean of temperature is `r mean(early_january_weather$temp)`.
 
-```{r, message = FALSE}
+## Scatter plot
+```{r image, echo=FALSE, message = FALSE}
 library(ggplot2)
 
 # Draw the graph
-scatter_plot = ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
+ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) +
   geom_point() + labs(x = "Time Hour", y = "Temperature (°C)", color = "Humidity (%)") + 
   theme_minimal() 
-scatter_plot
-ggsave("scatter plot.png", scatter_plot)
+
+ggsave("scatter_plot.png")
 ```
 The raw data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.m. on January 15, 2013, with time intervals of one recording every one hour. There are three areas of interest in the above image: 
 
@@ -35,9 +36,8 @@ The raw data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.
 *   It is difficult to summarize the relationship between temperature and humidity based on visual observation of this graph, as it seems that the humidity was lower when the daily temperatures were higher in a single day. However, there are outliers from January 12, 2013 to January 14, 2013, which suggests that humidity may be more significantly affected by other factors.
 
 # Problem 2
-```{r, message = FALSE}
-library(tidyverse)
-
+## Construct a dataframe
+```{r dataframe, message = FALSE}
 # Create the data frame
 df = data.frame(
   random_numeric = rnorm(10),  # Random sample from a standard Normal distribution
@@ -45,8 +45,9 @@ df = data.frame(
   character_vector = sample(letters, 10, replace = TRUE),  # Character vector of length 10
   factor_vector = as.factor(sample(1:3, 10, replace = TRUE))  # Factor vector with 3 levels
 )
-
-# Attempt to calculate the mean of each variable
+```
+## Calculate the mean
+```{r mean, message=FALSE}
 mean(df$random_numeric)  # Works
 mean(df$logical_vector)  # Works
 mean(df$character_vector)  # Doesn't work
@@ -54,16 +55,22 @@ mean(df$factor_vector)  # Doesn't work
 ```
 The calculation of mean works for numerical vectors and logical vectors, and doesn't work for character vectors and factor vectors. For the logical vector here, this logical vector consists of "TRUE" and "FALSE". R assigns "TURE" to 1 and "FALSE" to 0 by default, and uses this to calculate the mean of the logical vector.
 
-Then load the tidyverse package and use the pull function. Apply the as.numeric function to the logical, character, and factor vectors, and calculate their mean.
-```{r, message = FALSE}
+## Apply `as.numeric()` function
+Load the `tidyverse` package and use the `pull` function. Apply the `as.numeric()` function to the logical, character, and factor vectors, try to convert these vectors into numerical vectors and calculate their mean.
+```{r conversion, results=FALSE, message=FALSE, warning=FALSE}
 # Load the tidyverse package
 library(tidyverse)
 # Apply as.numeric to the variables using pull
-numeric_logical_vector <- df %>% pull(logical_vector) %>% as.numeric()
-numeric_character_vector <- df %>% pull(character_vector) %>% as.numeric()
-numeric_factor_vector <- df %>% pull(factor_vector) %>% as.numeric()
+numeric_logical_vector = as.numeric(pull(df,logical_vector))
+numeric_character_vector = as.numeric(pull(df,character_vector))
+numeric_factor_vector = as.numeric(pull(df,factor_vector))
+# Calculate the mean
 mean(numeric_logical_vector) # Works
 mean(numeric_character_vector) # Doesn't work
 mean(numeric_factor_vector) # Works
 ```
-It can be seen that after applying the as.numeric function to the logical, character, and factor vectors, the calculation of mean works for logical vectors and factor vectors, but still doesn't work for character vectors.
+After applying the `as.numeric()` function to the logical, character, and factor vectors, the calculation of mean works for logical vectors and factor vectors, but still doesn't work for character vectors.
+
+*   For `numeric_logical_vector`, it composes of "0"s and "1"s where 0 corresponds to FALSE and 1 corresponds to TRUR in `logical_vector`.
+*   For `numeric_character_vector`, each element of this vector is "NA", so R can only output "NA" when calculating the mean.
+*   For `numeric_factor_vector`, it composes of numbers after numerical conversion from factor vectors as factor vectors have different levels, and R can do this conversion by some patterns and calculate the mean.
