@@ -28,7 +28,7 @@ scatter_plot = ggplot(early_january_weather, aes(x = time_hour, y = temp, color 
 scatter_plot
 ggsave("scatter plot.png", scatter_plot)
 ```
-The raw data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.m. on January 15, 2013, with time intervals of one recording every one hour. There are three areas of interest in the above images: 
+The raw data package recorded data from 1:00 a.m. on January 1, 2013 to 23:00 p.m. on January 15, 2013, with time intervals of one recording every one hour. There are three areas of interest in the above image: 
 
 *   From the relationship between temperature and time, the daily temperatures fluctuated significantly and the overall temperature showed an increasing trend.
 *   The relationship between humidity and time shows that the humidity was much higher from about January 12, 2013 to January 14, 2013 compared to the other dates. 
@@ -54,3 +54,16 @@ mean(df$factor_vector)  # Doesn't work
 ```
 The calculation of mean works for numerical vectors and logical vectors, and doesn't work for character vectors and factor vectors. For the logical vector here, this logical vector consists of "TRUE" and "FALSE". R assigns "TURE" to 1 and "FALSE" to 0 by default, and uses this to calculate the mean of the logical vector.
 
+Then load the tidyverse package and use the pull function. Apply the as.numeric function to the logical, character, and factor vectors, and calculate their mean.
+```{r, message = FALSE}
+# Load the tidyverse package
+library(tidyverse)
+# Apply as.numeric to the variables using pull
+numeric_logical_vector <- df %>% pull(logical_vector) %>% as.numeric()
+numeric_character_vector <- df %>% pull(character_vector) %>% as.numeric()
+numeric_factor_vector <- df %>% pull(factor_vector) %>% as.numeric()
+mean(numeric_logical_vector)# Works
+mean(numeric_character_vector)# Doesn't work
+mean(numeric_factor_vector)# Works
+```
+It can be seen that after applying the as.numeric function to the logical, character, and factor vectors, the calculation of mean works for logical vectors and factor vectors, but still doesn't work for character vectors.
