@@ -62,8 +62,8 @@ library(tidyverse)
 numeric_logical_vector <- df %>% pull(logical_vector) %>% as.numeric()
 numeric_character_vector <- df %>% pull(character_vector) %>% as.numeric()
 numeric_factor_vector <- df %>% pull(factor_vector) %>% as.numeric()
-mean(numeric_logical_vector)# Works
-mean(numeric_character_vector)# Doesn't work
-mean(numeric_factor_vector)# Works
+mean(numeric_logical_vector) # Works
+mean(numeric_character_vector) # Doesn't work
+mean(numeric_factor_vector) # Works
 ```
 It can be seen that after applying the as.numeric function to the logical, character, and factor vectors, the calculation of mean works for logical vectors and factor vectors, but still doesn't work for character vectors.
